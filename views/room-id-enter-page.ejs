@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi Player</title>
+    <link rel="stylesheet" href="/styles/join-room-page.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="icon" href="/web_icon.png">
+</head>
+<body>
+    
+    <div class="container">
+        <div class="sub-container">
+            <div class="loader-container">
+                <p class="header">Enter <span>room ID</span></p>
+            </div>
+            <input type="number" id="roomID">
+            <button id="submit">Join</button>
+            <p id="error-message">Room not found</p>
+        </div>
+    </div>
+    <script>
+        let errorFlag="<%=ErrorFlag%>"
+        if(errorFlag==='true'){
+            document.getElementById("error-message").style.visibility="visible";
+        }
+        document.getElementById("submit").addEventListener('click',()=>{
+            const roomID = document.getElementById('roomID').value;
+            fetch('/joinRoom/room-id-check',{
+                method:'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body:JSON.stringify({
+                        roomID:roomID
+                    })
+                }).then(response=>{
+                    if(response.status === 400){
+                        window.location.href="/joinRoom/render/player-waiting-page";
+                        
+                    }else{
+                        document.getElementById("error-message").style.visibility="visible";
+                    }
+                    
+                })
+            })
+    </script>
+</body>
+</html>

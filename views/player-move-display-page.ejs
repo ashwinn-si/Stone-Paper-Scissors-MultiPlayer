@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi Player</title>
+    <link rel="stylesheet" href="/styles/player-move-display-page.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="icon" href="/web_icon.png">
+</head>
+<body>
+    <div class="container">
+        <div class="pop-up-container">
+            <p class="header" id="header"><span id="winner-text">Ashwin</span> WON</p>
+            <p class="sub-header">Score Card</p>
+            <div class="sub-container">
+                <div class="player-1-score-container">
+                    <p id="player-1-name" class="names">Ashwin</p>
+                    <p id="player-1-score" class="score">2</p>
+                </div>
+                <div class="player-1-score-container">
+                    <p id="player-2-name" class="names">Ashwin</p>
+                    <p id="player-2-score" class="score">2</p>
+                </div>
+            </div>
+            <div class="timer-container">
+                <p>Next Round Starts in </p>
+                <div>
+                    <p class="timer-text" id="timer">5</p>
+                </div>
+            </div>
+        </div>
+        <div class="move-displayer-container player-1-move-container">
+            <p><span id="your_name">Ashwin</span> move</p>
+            <img src="" id="your_move">
+            
+        </div>
+        <div class="result-container">
+            <div class="result-sub-container">
+                <p id="result-text">WIN</p>
+            </div>
+        </div>
+        <div class="move-displayer-container player-2-move-container">
+            <img src="" id="opp_move">
+            <p><span id="opp_name">Ashwin</span> move</p>
+        </div>
+    </div>
+    <script>
+        let your_name = document.getElementById("your_name");
+        let opp_name = document.getElementById("opp_name");
+        let your_move = document.getElementById("your_move");
+        let opp_move = document.getElementById("opp_move");
+        let result_text = document.getElementById("result-text");
+        let player_1_name = document.getElementById("player-1-name");
+        let player_2_name = document.getElementById("player-2-name");
+        let player_1_score = document.getElementById("player-1-score");
+        let player_2_score = document.getElementById("player-2-score");
+        let winner_text = document.getElementById("winner-text");
+        let pop_up_container = document.querySelector(".pop-up-container");
+        let player1Flag="<%=player1Flag%>"
+        let win_text="<%=winner_text%>"
+        let res_text="<%=result_text%>"
+
+        your_name.innerHTML="<%=your_name%>"
+        opp_name.innerHTML="<%=opp_name%>"
+        your_move.src=left_move_finder("<%=your_move%>")
+        opp_move.src=right_move_finder("<%=opp_move%>")
+        player_1_name.innerHTML="<%=your_name%>"
+        player_2_name.innerHTML="<%=opp_name%>"
+        player_1_score.innerHTML="<%=your_score%>"
+        player_2_score.innerHTML="<%=opp_score%>"
+        if(win_text === "tie"){
+            document.getElementById("header").innerHTML="tie"
+        }else{
+            winner_text.innerHTML=win_text
+        }
+        setTimeout(()=>{
+            result_text.innerHTML=res_text
+            result_text.style.backgroundColor = result_color_finder(res_text)
+            result_text.style.visibility = "visible"
+        },1000)
+
+        //gameEndedCheck
+        setInterval(()=>{
+            gameEndedFlag = "<%=GameEndedFlag%>"
+            if(gameEndedFlag==="true"){
+                if(player1Flag === "true"){
+                    window.location.href="/player1/render/game-ended"
+                }else{
+                    window.location.href="/player2/render/game-ended"
+                }
+            }
+        },1500) 
+
+        setTimeout(()=>{
+            pop_up_container.style.visibility="visible";
+        },2000)
+        
+        
+        function left_move_finder(move){
+            if(move==="rock"){
+                return "/assets/stone/stone_left.gif"
+            }else if(move==="paper"){
+                return "/assets/paper/paper_left.gif"
+            }else{
+                return "/assets/scissor/scissor_left.gif"
+            }
+        }
+
+        function right_move_finder(move){
+            if(move==="rock"){
+                return "/assets/stone/stone_right.gif"
+            }else if(move==="paper"){
+                return "/assets/paper/paper_right.gif"
+            }else{
+                return "/assets/scissor/scissor_right.gif"
+            }
+        }
+
+        function result_color_finder(result){
+            if(result==="win"){
+                return "lightgreen";
+            }else if(result === "loss"){
+                return "tomato";
+            }else{
+                return "purple"
+            }
+        }
+        //backend functions
+        function player1Backend(){
+            fetch("player1/player-move-page",{
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }).then((Response)=>{
+                window.location.href="player1/render/player-move-page"
+            })
+        }
+        function player1Backend(){
+            fetch("/player1/player-move-page",{
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }).then((Response)=>{
+                window.location.href="/player1/render/player-move-page"
+            })
+        }
+        function player2Backend(){
+            //delaying the player 2 again by 500ms 
+            setTimeout(()=>{
+                window.location.href="/player2/render/player-move-page"
+            },500);
+        }
+
+        
+        // Timer function
+        let time = 10;
+        const timerElement = document.getElementById("timer");
+
+        const countdown = setInterval(() => {
+            timerElement.textContent = time;
+            time--;
+
+            if (time < 0) {
+                clearInterval(countdown);
+                timerElement.textContent = "Time's up!";
+                timerElement.style.color = "tomato"; 
+                if(player1Flag==="true"){
+                    player1Backend();
+                }else{
+                    player2Backend();
+                }
+            }
+        }, 1000);
+    </script>
+</body>
+</html>

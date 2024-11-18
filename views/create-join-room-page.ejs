@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi Player</title>
+    <link rel="stylesheet" href="/styles/create-join-room-page.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="icon" href="/web_icon.png">
+</head>
+<body>
+    <div class="container">
+        <p class="header"><span style="font-size: 2.5rem;">M</span>ulti-Player MODE</p>
+        <div class="sub-container">
+            <button onclick="createRoom()">Create Room</button>
+            <button onclick="joinRoom()">Join Room</button>
+        </div>
+    </div>
+    <script>
+        function createRoom() {
+            fetch('/createRoom/player-name-page', {
+                method: 'POST',
+            })
+            .then(response => {
+             window.location.href = "createRoom/render/player-name-page";  
+            })
+        }
+        
+        function joinRoom(){
+            fetch('/joinRoom/player-name-page', {
+            method: 'POST',
+            }).then(()=>{
+                window.location.href="/joinRoom/render/player-name-page";
+            })
+        }
+    </script>
+</body>
+</html>

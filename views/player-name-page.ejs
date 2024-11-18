@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi Player</title>
+    <link rel="stylesheet" href="/styles/player-name-page.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="icon" href="/web_icon.png">
+</head>
+<body>
+    <div class="container">
+        <div class="sub-container">
+            <div class="inputGroup">
+                <input type="text" required autocomplete="off" id="name">
+                <label for="name" >Name</label>
+            </div>
+            <div class="inputGroup" id="noRoundsContainer">
+                <input type="number" required autocomplete="off" id="rounds">
+                <label for="name">Run To Points</label>
+            </div>
+            <button id="button"></button>
+        </div>
+    </div>
+    <script>
+         
+        const buttonData = <%-JSON.stringify(buttonContent) %>; 
+        document.getElementById("button").innerHTML=buttonData.content;
+        if(buttonData.content === 'Create'){
+            document.getElementById("noRoundsContainer").style.visibility = "visible";
+        }else{
+            document.getElementById("noRoundsContainer").innerHTML="";
+        }
+        <!--TODO ERROR HANDLING FOR NAME-->
+        document.getElementById("button").addEventListener('click',()=>{
+            const name = document.getElementById("name").value;
+            if(buttonData.content ==='Create'){
+                const noRounds = parseInt(document.getElementById("rounds").value);
+                fetch(buttonData.location, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body:JSON.stringify({
+                        player1Name:name,
+                        roomID : generateRoomID(),
+                        noRounds : noRounds
+                    })
+                }).then(response=>{
+                    window.location.href="/CreateRoom/render/player-waiting-page";
+                })
+            }else{
+                fetch(buttonData.location,{
+                    method:'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body:JSON.stringify({
+                        player2Name:name
+                    })
+                }).then(response=>{
+                    window.location.href="/joinRoom/render/room-id-enter-page";
+                })
+            }
+            
+        })
+
+        function generateRoomID() {
+            return Math.floor(100000 + Math.random() * 900000);
+        }
+
+    </script>
+</body>
+</html>

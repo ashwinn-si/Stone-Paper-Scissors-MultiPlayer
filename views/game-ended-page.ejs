@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>End Page</title>
+    <link rel="stylesheet" href="/styles/end-game-page.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="icon" href="/web_icon.png">
+</head>
+<body>
+    <div class="container">
+        <div class="sub-container">
+            <p class="header"><span id="text" style="font-weight: 800;"></span> Won</p>
+            <p class="sub-header">Thanks for trying out &#128591;</p>
+            <p>Developed By: <span style="color: purple;font-weight: bold; font-size: 1.3rem">Ashwin SI&#128151;</span></p>
+            <button id="button">Return Home</button>
+        </div>
+    </div>
+    <script>
+        document.getElementById("text").innerHTML="<%=winner%>"
+        document.getElementById("button").addEventListener('click',()=>{
+            window.location.href="/return-home"
+        })
+    </script>
+</body>
+</html>

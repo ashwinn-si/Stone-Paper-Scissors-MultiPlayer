@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi Player</title>
+    <link rel="stylesheet" href="/styles/move-selection-page.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="icon" href="/web_icon.png">
+</head>
+<body>
+    <div class="container">
+        <div class="header-container">
+            <div class="player-container">
+                <p id="player_1_name">ashwin</p>
+                <p id="player_1_score">12</p>
+            </div>
+            <div class="round-container">
+                <p>curr round</p>
+                <p id="curr_round">5</p>
+            </div>
+            <div class="player-container">
+                <p id="player_2_name">ashwin</p>
+                <p id="player_2_score">12</p>
+            </div>
+        </div>
+        <p class="header">Make your move</p>
+        <div class="move-selection-container">
+            <div class="img-container" id="rock_button">
+                <img src="/assets/stone/rock.png" >
+            </div>
+            <div class="img-container" id="paper_button">
+                <img src="/assets/paper/paper.png" >
+            </div>
+            <div class="img-container" id="scissor_button">
+                <img src="/assets/scissor/scissor.png">
+            </div>
+        </div>
+        <div class="timer-container">
+            <p class="timer-text" id="timer">5</p>
+        </div>
+    </div>
+    <script>
+
+        let player_1_name = document.getElementById("player_1_name");
+        let player_1_score = document.getElementById("player_1_score");
+        let player_2_name = document.getElementById("player_2_name");
+        let player_2_score = document.getElementById("player_2_score");
+        let curr_round_count = document.getElementById("curr_round");
+        let player1Flag = "<%=player1Flag%>";
+        let player_move = "empty";
+
+        //auto loading contents
+        player_1_name.innerHTML="<%=player_1_name%>"
+        player_2_name.innerHTML="<%=player_2_name%>"
+        player_1_score.innerHTML="<%=player_1_score%>"
+        player_2_score.innerHTML="<%=player_2_score%>"
+        curr_round_count.innerHTML="<%=curr_round%>"
+
+        document.getElementById("rock_button").addEventListener("click", () => {
+            if (player_move === "empty") {
+                player_move = "rock";
+                document.getElementById("rock_button").style.borderColor="#563A9C";
+                document.getElementById("rock_button").style.borderWidth="5px";
+            }
+        });
+
+        document.getElementById("paper_button").addEventListener("click", () => {
+            if (player_move === "empty") {
+                player_move = "paper";
+                document.getElementById("paper_button").style.borderColor="#563A9C";
+                document.getElementById("paper_button").style.borderWidth="5px";
+            }
+        });
+
+        document.getElementById("scissor_button").addEventListener("click", () => {
+            if (player_move === "empty") {
+                player_move = "scissor";
+                document.getElementById("scissor_button").style.borderColor="#563A9C";
+                document.getElementById("scissor_button").style.borderWidth="5px";
+            }
+        });
+
+
+        function moveSender() {
+            if(player_move==="empty"){
+                player_move = randomMoveGenerator();
+            }
+
+            if(player1Flag==="true"){
+                player1MoveSender();
+            }else{
+                player2MoveSender();
+            }
+            
+        }
+
+        function player1MoveSender(){
+            fetch("/player1/player-move-sender",{
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body:JSON.stringify({
+                    player1Move:player_move
+                })
+            }).then((response)=>{
+                window.location.href="/player1/render/player-move-display-page";
+            })
+        }
+
+        function player2MoveSender(){
+            fetch("/player2/player-move-sender",{
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body:JSON.stringify({
+                    player2Move:player_move
+                })
+            }).then((response)=>{
+                window.location.href="/player2/render/player-move-display-page";
+            })
+        }
+
+         // Timer function
+         let time = 5;
+        const timerElement = document.getElementById("timer");
+
+        const countdown = setInterval(() => {
+            timerElement.textContent = time;
+            time--;
+
+            if (time < 0) {
+                clearInterval(countdown);
+                timerElement.textContent = "Time's up!";
+                timerElement.style.color = "tomato"; 
+                moveSender(); 
+            }
+        }, 1000);
+
+        // Random move generator
+        function randomMoveGenerator() {
+            const random_number = Math.random();
+            if (random_number > 0.66) {
+                return "scissor";
+            } else if (random_number > 0.33) {
+                return "paper";
+            } else {
+                return "rock";
+            }
+        }
+    </script>
+</body>
+</html>

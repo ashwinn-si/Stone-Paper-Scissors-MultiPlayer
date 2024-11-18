@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Waiting Area</title>
+    <link rel="stylesheet" href="/styles/player-waiting-page.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="icon" href="/web_icon.png">
+</head>
+<body>
+    
+    <div class="container">
+        <div class="header-container"><p class="header">ROOM ID : <span id="room-id"></span></p></div>
+        <div class="sub-container">
+            <div class="player-container" id="player-container">
+                <p class="header">Avaliable Players</p>
+            </div>
+            <div class="loader-container" id="loader">
+                <p id="loader-text">waiting for player</p>
+                <div class="loader" >
+                    <div class="circle">
+                        <div class="dot"></div>
+                        <div class="outline"></div>
+                    </div>
+                    <div class="circle">
+                        <div class="dot"></div>
+                        <div class="outline"></div>
+                    </div>
+                    <div class="circle">
+                        <div class="dot"></div>
+                        <div class="outline"></div>
+                    </div>
+                    <div class="circle">
+                        <div class="dot"></div>
+                        <div class="outline"></div>
+                    </div>
+                </div>
+            </div>
+            <button id="start">Letss Goo</button>
+        </div>
+    </div>
+    <script>
+        let room_id = document.getElementById("room-id");
+        let playerNameContainer = document.getElementById("player-container");
+        let loader_container = document.getElementById("loader");
+        let button = document.getElementById("start");
+        
+        let startButtonFlag ="<%=startButtonFlag%>";
+        let loaderFlag = "<%=loaderFlag %>"
+        const playerNames = <%- JSON.stringify(playerName) %>;
+
+        playerNames.forEach(element => {
+            playerNameContainer.innerHTML+=`<p class="player-name">${element}</p>`
+        });
+        if(loaderFlag ==="true"){
+            loader_container.style.visibility="visible";
+            button.style.visibility = "hidden";
+        }
+        room_id.textContent = "<%= RoomID %>";
+       
+        function playerFinder(){
+            fetch("/createRoom/searching-player",{
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }).then(response =>{
+                if(response.status === 200){
+                    window.location.href="/createRoom/render/playerFound/player-waiting-page";
+                    clearInterval();
+                }else{
+                    console.log("player not found");
+                }
+            })
+        }
+
+        function gameStartFinder(){
+            fetch("/joinRoom/game-start-check",{
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }).then(response=>{
+                if(response.status === 200){
+                    clearInterval();
+                    window.location.href="/player2/render/player-move-page"
+                }
+            })
+        }
+        document.getElementById("start").addEventListener("click",()=>{
+            fetch("/player1/player-move-page", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+                })
+                .then(response=>{
+                    window.location.href="/player1/render/player-move-page";
+                })
+        })
+
+        if(loaderFlag==="true"){
+            setInterval(playerFinder,500);
+        }
+
+        if(startButtonFlag==="false"){
+            document.getElementById("loader-text").innerHTML="waiting To Start";
+            loader_container.style.visibility="visible";
+            button.style.visibility = "hidden";
+            setInterval(gameStartFinder,100);
+        }
+        
+
+    </script>
+    
+</body>
+</html>
