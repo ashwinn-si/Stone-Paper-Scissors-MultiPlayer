@@ -28,7 +28,7 @@
             document.getElementById("error-message").style.visibility="visible";
         }
         document.getElementById("submit").addEventListener('click',()=>{
-            const roomID = document.getElementById('roomID').value;
+            const roomID = parseInt(document.getElementById('roomID').value);
             fetch('/joinRoom/room-id-check',{
                 method:'POST',
                     headers: {
