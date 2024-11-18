@@ -41,14 +41,7 @@ router.post("/room-id-check",async(req,res)=>{
         await Game.findByIdAndUpdate(databaseID,{
             player2Name:player2Name
         }).then(()=>{
-            res.sendStatus(200);
-            const playerName = [player2Name,player1Name];
-            res.render("player-waiting-page",{ 
-                "RoomID" : roomID,
-                "playerName" : playerName,
-                "loaderFlag" : false,
-                "startButtonFlag":false
-            });
+            res.status(200);
         })
     }else{
         res.sendStatus(404);
@@ -72,14 +65,6 @@ router.get("/game-start-check",async (req,res)=>{
             res.sendStatus(404);
         }else{
             res.sendStatus(200);
-            res.render("move-selection-page",{
-                player_1_name:allDetails.player1Name,
-                player_2_name:allDetails.player2Name,
-                player_1_score:allDetails.player1Score,
-                player_2_score:allDetails.player2Score,
-                curr_round:allDetails.currRound,
-                player1Flag:false
-            })
         }
     })
 })

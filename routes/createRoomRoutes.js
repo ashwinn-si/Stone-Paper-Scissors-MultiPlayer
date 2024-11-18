@@ -68,13 +68,6 @@ router.get("/searching-player",async(req,res)=>{
             res.sendStatus(404);
         }else{
             res.sendStatus(200);
-            const playerName = [allDetails.player1Name,allDetails.player2Name];
-            res.render("player-waiting-page",{ 
-                "RoomID" : allDetails.roomID,
-                "playerName" : playerName,
-                "loaderFlag" : false,
-                "startButtonFlag":true
-            });
         }
     })
 })
