@@ -38,7 +38,7 @@
                         roomID:roomID
                     })
                 }).then(response=>{
-                    if(response.status === 400){
+                    if(response.status === 200){
                         window.location.href="/joinRoom/render/player-waiting-page";
                         
                     }else{
