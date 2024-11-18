@@ -33,7 +33,7 @@ router.get("/render/room-id-enter-page",(req,res)=>{
 })
 
 router.post("/room-id-check",async(req,res)=>{
-    roomID = req.body.roomID;
+    roomID = parseInt(req.body.roomID, 10);
     const currGame = await Game.find({"roomID" : roomID})
     if(currGame.length == 1){
         databaseID = currGame[0]._id;
