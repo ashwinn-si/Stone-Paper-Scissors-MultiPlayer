@@ -34,12 +34,13 @@ router.get("/render/room-id-enter-page",(req,res)=>{
 
 router.post("/room-id-check",async(req,res)=>{
     roomID = parseInt(req.body.roomID, 10);
+    let currGame ;
     try{
-        const currGame = await Game.find({"roomID" : roomID})
+        currGame = await Game.find({"roomID" : roomID})
     }catch(err){
         console.log("unavle to find the game id")
     }
-    
+    console.log(currGame);
     if(currGame.length == 1){
         databaseID = currGame[0]._id;
         player1Name = currGame[0].player1Name;
