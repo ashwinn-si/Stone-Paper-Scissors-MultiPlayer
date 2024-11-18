@@ -32,52 +32,28 @@ router.get("/render/room-id-enter-page",(req,res)=>{
     res.render("room-id-enter-page",{"ErrorFlag":false})
 })
 
-const mongoose = require("mongoose");
-
-router.post("/room-id-check", async (req, res) => {
-    const roomID = req.body.roomID;
-    const player2Name = req.body.player2Name; // Assuming player2Name is being sent in the request
-
-    try {
-        // Fetch the current game by roomID
-        const currGame = await Game.findOne({ roomID: roomID });
-
-        // Check if a game exists with the given roomID
-        if (currGame) {
-            const databaseID = currGame._id;
-
-            // Validate ObjectId
-            if (!mongoose.Types.ObjectId.isValid(databaseID)) {
-                return res.status(400).send("Invalid Database ID");
-            }
-
-            const player1Name = currGame.player1Name;
-
-            // Update player2Name in the game
-            await Game.findByIdAndUpdate(databaseID, {
-                player2Name: player2Name,
+router.post("/room-id-check",async(req,res)=>{
+    roomID = req.body.roomID;
+    const currGame = await Game.find({"roomID" : roomID})
+    if(currGame.length == 1){
+        databaseID = currGame[0]._id;
+        player1Name = currGame[0].player1Name;
+        await Game.findByIdAndUpdate(databaseID,{
+            player2Name:player2Name
+        }).then(()=>{
+            res.sendStatus(200);
+            const playerName = [player2Name,player1Name];
+            res.render("player-waiting-page",{ 
+                "RoomID" : roomID,
+                "playerName" : playerName,
+                "loaderFlag" : false,
+                "startButtonFlag":false
             });
-
-            // Prepare player names for rendering
-            const playerName = [player2Name, player1Name];
-
-            // Render the player-waiting-page
-            return res.render("player-waiting-page", {
-                RoomID: roomID,
-                playerName: playerName,
-                loaderFlag: false,
-                startButtonFlag: false,
-            });
-        } else {
-            // No game found with the given roomID
-            return res.status(404).send("Room not found");
-        }
-    } catch (error) {
-        console.error("Error in /room-id-check:", error);
-        res.status(500).send("Internal Server Error");
+        })
+    }else{
+        res.sendStatus(404);
     }
-});
-
+})
 
 router.get("/render/player-waiting-page",(req,res)=>{
     const playerName = [player2Name,player1Name];
