@@ -41,7 +41,7 @@ router.post("/room-id-check",async(req,res)=>{
         await Game.findByIdAndUpdate(databaseID,{
             player2Name:player2Name
         }).then(()=>{
-            res.sendStatus(400);
+            res.sendStatus(200);
             const playerName = [player2Name,player1Name];
             res.render("player-waiting-page",{ 
                 "RoomID" : roomID,

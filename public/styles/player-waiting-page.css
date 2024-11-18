@@ -25,13 +25,10 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    position: relative;
 }
 .header-container{
-    position: absolute;
-    top:30%;
+  margin: 10px;
 }
-
 .header-container .header{
     font-size: 2rem;
 }
