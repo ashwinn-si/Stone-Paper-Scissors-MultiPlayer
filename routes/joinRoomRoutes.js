@@ -29,28 +29,31 @@ router.post("/room-id-enter-page",(req,res)=>{
 })
 
 router.get("/render/room-id-enter-page",(req,res)=>{
-    res.render("room-id-enter-page",{"ErrorFlag":false})
+    res.render("room-id-enter-page",{
+        "ErrorFlag":false,
+        "playerWaitingPageFlag" : false
+    })
 })
 
 router.post("/room-id-check",async(req,res)=>{
     roomID = parseInt(req.body.roomID, 10);
-    let currGame ;
-    try{
-        currGame = await Game.find({"roomID" : roomID})
-    }catch(err){
-        console.log("unavle to find the game id")
-    }
-    console.log(currGame);
+    let currGame = await Game.find({"roomID" : roomID})
     if(currGame.length == 1){
         databaseID = currGame[0]._id;
         player1Name = currGame[0].player1Name;
         await Game.findByIdAndUpdate(databaseID,{
             player2Name:player2Name
-        }).then(()=>{
-            res.status(200);
+        })
+        //! basically the error is i should two responses one is res.status and res.render but server can send only one resposne it cant send multiple responses
+        res.render("room-id-enter-page",{
+            "ErrorFlag":false,
+            "playerWaitingPageFlag" : true
         })
     }else{
-        res.sendStatus(404);
+        res.render("room-id-enter-page",{
+            "ErrorFlag":true,
+            "playerWaitingPageFlag" : false
+        })
     }
 })
 

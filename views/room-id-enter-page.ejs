@@ -24,6 +24,10 @@
     </div>
     <script>
         let errorFlag="<%=ErrorFlag%>"
+        let playerWaitingPageFlag ="<%=playerWaitingPageFlag%>"
+        if(playerWaitingPageFlag === "true"){
+            window.location.href="/joinRoom/render/player-waiting-page";
+        }
         if(errorFlag==='true'){
             document.getElementById("error-message").style.visibility="visible";
         }
@@ -37,16 +41,9 @@
                     body:JSON.stringify({
                         roomID:roomID
                     })
-                }).then(response=>{
-                    if(response.status === 200){
-                        window.location.href="/joinRoom/render/player-waiting-page";
-                        
-                    }else{
-                        document.getElementById("error-message").style.visibility="visible";
-                    }
-                    
                 })
             })
+
     </script>
 </body>
 </html>

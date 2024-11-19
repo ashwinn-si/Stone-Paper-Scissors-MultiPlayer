@@ -33,7 +33,7 @@ router.post("/player-waiting-page", async(req,res)=>{
         player1Score : 0,
         player2Score: 0,
         currRound : 0,
-        totalRound : parseInt(req.body.noRounds, 10), //!need to change in future
+        totalRound : parseInt(req.body.noRounds, 10),
         gameStart:"no",
     })
     await currGame.save().then(savedGame =>{
