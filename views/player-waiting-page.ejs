@@ -78,12 +78,12 @@
         }
 
         function gameStartFinder(){
-                fetch("/joinRoom/game-start-check", {
+            fetch("/joinRoom/game-start-check", {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
             },
-        })
+            })
             .then((response) => {
                 if (response.status === 200) {
                     // Clear the interval and redirect to the player move page
@@ -95,6 +95,7 @@
                 console.error("Error checking game start status:", error);
             });
         }
+        
         document.getElementById("start").addEventListener("click",()=>{
             fetch("/player1/player-move-page", {
                 method: 'POST',

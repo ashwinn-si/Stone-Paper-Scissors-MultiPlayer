@@ -68,7 +68,9 @@ router.get("/render/player-waiting-page", (req, res) => {
 
 
 router.get("/game-start-check", async (req, res) => {
-    try {
+  
+        
+
         const savedGame = await Game.findById(allDetails.databaseID);
 
         if (!savedGame) {
@@ -80,10 +82,7 @@ router.get("/game-start-check", async (req, res) => {
         }
 
         res.status(200).json({ success: true, message: "Game has started" });
-    } catch (error) {
-        console.error("Error checking game start status:", error);
-        res.status(500).json({ error: "Internal Server Error" });
-    }
+   
 });
 
 
