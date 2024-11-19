@@ -66,15 +66,24 @@ router.get("/render/player-waiting-page", (req, res) => {
 });
 
 
-router.get("/game-start-check",async (req,res)=>{
-    await Game.findById(databaseID).then((savedGame)=>{
-        let gameStatus = savedGame.gameStart;
-        if(gameStatus==="no"){
-            res.sendStatus(404);
-        }else{
-            res.sendStatus(200);
+router.get("/game-start-check", async (req, res) => {
+    try {
+        const savedGame = await Game.findById(databaseID);
+
+        if (!savedGame) {
+            return res.status(404).json({ error: "Game not found" });
         }
-    })
-})
+
+        if (savedGame.gameStart === "no") {
+            return res.status(404).json({ error: "Game has not started" });
+        }
+
+        res.status(200).json({ success: true, message: "Game has started" });
+    } catch (error) {
+        console.error("Error checking game start status:", error);
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+});
+
 
 module.exports = router;
