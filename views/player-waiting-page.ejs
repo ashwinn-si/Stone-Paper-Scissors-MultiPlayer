@@ -87,7 +87,7 @@
             .then((response) => {
                 if (response.status === 200) {
                     // Clear the interval and redirect to the player move page
-                    clearInterval(gameStartInterval); // Pass the interval ID
+                    clearInterval(); // Pass the interval ID
                     window.location.href = "/player2/render/player-move-page";
                 }
             })
