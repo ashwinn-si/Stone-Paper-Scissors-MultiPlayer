@@ -60,7 +60,7 @@ router.post("/player-move-sender", async (req, res) => {
     allDetails.player1Move = req.body.player1Move;
     // Wait for 1 m-second before processing
 
-    await delay(500);
+    await delay(1000);
 
     // Fetch the updated game details
     currGame = await Game.findById(allDetails.databaseID);
