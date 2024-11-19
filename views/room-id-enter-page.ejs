@@ -24,25 +24,40 @@
     </div>
     <script>
         let errorFlag="<%=ErrorFlag%>"
-        let playerWaitingPageFlag ="<%=playerWaitingPageFlag%>"
-        if(playerWaitingPageFlag === "true"){
-            window.location.href="/joinRoom/render/player-waiting-page";
-        }
+        
+        
         if(errorFlag==='true'){
             document.getElementById("error-message").style.visibility="visible";
         }
-        document.getElementById("submit").addEventListener('click',()=>{
-            const roomID = parseInt(document.getElementById('roomID').value);
-            fetch('/joinRoom/room-id-check',{
-                method:'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body:JSON.stringify({
-                        roomID:roomID
-                    })
-                })
-            })
+        document.getElementById("submit").addEventListener("click", () => {
+         const roomID = parseInt(document.getElementById("roomID").value);
+
+            fetch("/joinRoom/room-id-check", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ roomID }),
+        })
+        .then((response) => {
+            if (response.status === 200) {
+                return response.json(); // Parse the JSON response
+            } else if (response.status === 404) {
+                document.getElementById("error-message").style.visibility = "visible";
+                throw new Error("Room not found");
+            } else {
+                throw new Error("Unexpected error occurred");
+            }
+        })
+        .then((data) => {
+            // Redirect based on server response
+            window.location.href = data.redirectTo;
+        })
+        .catch((error) => {
+            console.error("Error:", error);
+        });
+});
+
 
     </script>
 </body>

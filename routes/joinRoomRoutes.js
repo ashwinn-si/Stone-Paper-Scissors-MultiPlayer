@@ -31,41 +31,40 @@ router.post("/room-id-enter-page",(req,res)=>{
 router.get("/render/room-id-enter-page",(req,res)=>{
     res.render("room-id-enter-page",{
         "ErrorFlag":false,
-        "playerWaitingPageFlag" : false
+        
     })
 })
 
-router.post("/room-id-check",async(req,res)=>{
+router.post("/room-id-check", async (req, res) => {
     roomID = parseInt(req.body.roomID, 10);
-    let currGame = await Game.find({"roomID" : roomID})
-    if(currGame.length == 1){
+    let currGame = await Game.find({ roomID });
+
+    if (currGame.length === 1) {
         databaseID = currGame[0]._id;
         player1Name = currGame[0].player1Name;
-        await Game.findByIdAndUpdate(databaseID,{
-            player2Name:player2Name
-        })
-        //! basically the error is i should two responses one is res.status and res.render but server can send only one resposne it cant send multiple responses
-        res.render("room-id-enter-page",{
-            "ErrorFlag":false,
-            "playerWaitingPageFlag" : true
-        })
-    }else{
-        res.render("room-id-enter-page",{
-            "ErrorFlag":true,
-            "playerWaitingPageFlag" : false
-        })
-    }
-})
 
-router.get("/render/player-waiting-page",(req,res)=>{
-    const playerName = [player2Name,player1Name];
-    res.render("player-waiting-page",{ 
-        "RoomID" : roomID,
-        "playerName" : playerName,
-        "loaderFlag" : false,
-        "startButtonFlag":false
+        // Update player2Name in the database
+        await Game.findByIdAndUpdate(databaseID, { player2Name });
+
+        // Send JSON response indicating success
+        res.status(200).json({ redirectTo: "/joinRoom/render/player-waiting-page" });
+    } else {
+        // Send JSON response indicating failure
+        res.status(404).json({ error: "Room not found" });
+    }
+});
+
+router.get("/render/player-waiting-page", (req, res) => {
+    const playerName = [player2Name, player1Name];
+
+    res.render("player-waiting-page", {
+        RoomID: roomID,
+        playerName: playerName,
+        loaderFlag: false,
+        startButtonFlag: false,
     });
-})
+});
+
 
 router.get("/game-start-check",async (req,res)=>{
     await Game.findById(databaseID).then((savedGame)=>{
