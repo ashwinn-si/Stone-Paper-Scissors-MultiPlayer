@@ -153,7 +153,7 @@
             //delaying the player 2 again by 500ms 
             setTimeout(()=>{
                 window.location.href="/player2/render/player-move-page"
-            },1000);
+            },5000);
         }
 
         
@@ -164,16 +164,18 @@
         const countdown = setInterval(() => {
             timerElement.textContent = time;
             time--;
-
-            if (time < 0) {
-                clearInterval(countdown);
-                timerElement.textContent = "Time's up!";
-                timerElement.style.color = "tomato"; 
+            if(time==5){
                 if(player1Flag==="true"){
                     player1Backend();
                 }else{
                     player2Backend();
                 }
+            }
+            if (time < 0) {
+                clearInterval(countdown);
+                timerElement.textContent = "Time's up!";
+                timerElement.style.color = "tomato"; 
+                
             }
         }, 1000);
     </script>
