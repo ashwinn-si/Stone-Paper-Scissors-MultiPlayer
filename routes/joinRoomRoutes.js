@@ -9,6 +9,7 @@ let player1Name = "";
 let databaseID = "";
 let gameID = "";
 let allDetails=[];
+let roomID = "";
 
 router.post("/player-name-page", (req, res) => {
     res.render("player-name-page");
