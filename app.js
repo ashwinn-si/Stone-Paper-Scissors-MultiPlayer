@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
-const {router:createRoomRoutes , allDetails} = require("./routes/createRoomRoutes");
-const JoinRoomRoutes = require("./routes/joinRoomRoutes");
+const {router:createRoomRoutes , allDetails1} = require("./routes/createRoomRoutes");
+const {router:joinRoomRoutes , allDetails2} = require("./routes/joinRoomRoutes");
 const player1Routers = require("./routes/player1Routes");
 const player2Routers = require("./routes/player2Routes");
 const path = require("path");
@@ -24,7 +24,7 @@ app.get("/", (req, res) => {
 
 app.use("/createRoom",createRoomRoutes);
 
-app.use("/joinRoom",JoinRoomRoutes);
+app.use("/joinRoom",joinRoomRoutes);
 
 app.use("/player1",player1Routers);
 

@@ -8,7 +8,7 @@ const resultTextFinder = require("../public/scripts/resultMessageFinder");
 
 const Game = require("../models/game");
 
-const {noneed_router:router1 , allDetails} = require("./createRoomRoutes")
+const {noneed_router:router1 , allDetails} = require("./joinRoomRoutes")
 
 allDetails.player1Score=0;
 allDetails.player2Score =0;
