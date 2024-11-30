@@ -47,6 +47,7 @@ router.post("/player-waiting-page", async(req,res)=>{
 })
 
 router.get("/render/player-waiting-page",async (req,res)=>{
+    
     const currGame = await Game.findById(allDetails.databaseID).then((savedGame)=>{
         const playerName = [allDetails.player1Name];
         allDetails.roomID = savedGame.roomID;
