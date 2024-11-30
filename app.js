@@ -1,17 +1,31 @@
 const express = require("express");
 const app = express();
-const {router:createRoomRoutes , allDetails1} = require("./routes/createRoomRoutes");
-const {router:joinRoomRoutes , allDetails2} = require("./routes/joinRoomRoutes");
+const {router:createRoomRoutes , allDetails:allDetails1} = require("./routes/createRoomRoutes");
+const {router:joinRoomRoutes , allDetails:allDetails2} = require("./routes/joinRoomRoutes");
 const player1Routers = require("./routes/player1Routes");
 const player2Routers = require("./routes/player2Routes");
 const path = require("path");
-const PORT = process.env.PORT || 10000;
+const https = require("http");
+const PORT = 3000;
+const {Server} = require("socket.io");
 
+const server = https.createServer(app);
 
+const io = new Server(server);
 
-let dbID = 0;
-let playerName ="";
-let GameID = 0;
+io.on("connection", (socket) => {
+    socket.on("Player1joinRoom", (room) => {
+        socket.join(room);
+        console.log("player 1 joined");
+    })
+    socket.on("Player2joinRoom", (room) => {
+        socket.join(room);
+        io.to(room).emit("player-2-Joined-Room",allDetails2.player2Name);
+    })
+    socket.on("gameStarted",(room)=>{
+        io.to(room).emit("game-started");
+    })
+})
 
 app.set("view engine", "ejs");
 app.use(express.static(path.join(__dirname, "public")));
@@ -37,6 +51,6 @@ app.get("/return-home",(req,res)=>{
     res.render("create-join-room-page")
 })
 
-app.listen(PORT, '0.0.0.0', () => {
-    console.log(`Server is running on port ${PORT}`);
+server.listen(3000, () => {
+    console.log(`Server is running on port 3000`);
 });

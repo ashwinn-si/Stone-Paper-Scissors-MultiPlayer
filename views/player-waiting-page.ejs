@@ -42,83 +42,54 @@
             <button id="start">Letss Goo</button>
         </div>
     </div>
+    <script src="/socket.io/socket.io.js"></script>
     <script>
         let room_id = document.getElementById("room-id");
+        let RoomID = "<%= RoomID %>";
         let playerNameContainer = document.getElementById("player-container");
         let loader_container = document.getElementById("loader");
         let button = document.getElementById("start");
         
         let startButtonFlag ="<%=startButtonFlag%>";
-        let loaderFlag = "<%=loaderFlag %>"
+        let Player1Flag = "<%=loaderFlag %>"
         const playerNames = <%- JSON.stringify(playerName) %>;
 
         playerNames.forEach(element => {
             playerNameContainer.innerHTML+=`<p class="player-name">${element}</p>`
         });
-        if(loaderFlag ==="true"){
+        if(Player1Flag ==="true"){
             loader_container.style.visibility="visible";
             button.style.visibility = "hidden";
         }
         room_id.textContent = "<%= RoomID %>";
-       
-        function playerFinder(){
-            fetch("/createRoom/searching-player",{
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            }).then(response =>{
-                if(response.status === 200){
-                    window.location.href="/createRoom/render/playerFound/player-waiting-page";
-                    clearInterval();
-                }else{
-                    console.log("player not found");
-                }
-            })
-        }
 
-        function gameStartFinder(){
-            fetch("/joinRoom/game-start-check", {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            })
-            .then((response) => {
-                if (response.status === 200) {
-                    // Clear the interval and redirect to the player move page
-                    clearInterval(); // Pass the interval ID
-                    window.location.href = "/player2/render/player-move-page";
-                }
-            })
-            .catch((error) => {
-                console.error("Error checking game start status:", error);
-            });
-        }
-        
-        document.getElementById("start").addEventListener("click",()=>{
-            fetch("/player1/player-move-page", {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-                })
-                .then(response=>{
-                    window.location.href="/player1/render/player-move-page";
-                })
-        })
-
-        if(loaderFlag==="true"){
-            setInterval(playerFinder,5000);
-        }
-
-        if(startButtonFlag==="false"){
+        if(Player1Flag != "true"){
             document.getElementById("loader-text").innerHTML="waiting To Start";
             loader_container.style.visibility="visible";
             button.style.visibility = "hidden";
-            setInterval(gameStartFinder,5000);
         }
-        
+
+        const socket = io();
+        if(Player1Flag === "true"){
+            socket.emit('Player1joinRoom', RoomID);
+            //adding the player 2 name to the list and enabling the start button and hidding the loading
+            socket.on('player-2-Joined-Room',(playerName)=>{
+                playerNameContainer.innerHTML+=`<p class="player-name">${playerName}</p>`;
+                loader_container.style.visibility="hidden";
+                button.style.visibility = "visible";
+            })
+            button.addEventListener('click',()=> {
+                socket.emit("gameStarted",RoomID);
+            })
+        }else{
+            socket.emit('Player2joinRoom', RoomID);
+            socket.on("game-started",()=>{
+                setTimeout(()=>{
+
+                }
+            })
+        }
+
 
     </script>
     
