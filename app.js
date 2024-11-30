@@ -19,13 +19,19 @@ io.on("connection", (socket) => {
     socket.on("Player1joinRoom", (room) => {
         socket.join(room);
     })
-    socket.on("Player2joinRoom", (room) => {
-        socket.join(room).then(()=>{
-            console.log("plyaer 2 successfully joined");
+    socket.on("Player2joinRoom", (room) => {    
+        // Try to join the room
+        socket.join(room, (err) => {
+            if (err) {
+                console.log(`Error joining room: ${room}`, err);
+                return;
+            }
+            // Successfully joined room
+            allDetails1.player2Name = allDetails2.player2Name;
+            io.to(room).emit("player-2-Joined-Room", allDetails2.player2Name);
+            console.log(`Socket successfully joined room: ${room}`);
         });
-        allDetails1.player2Name = allDetails2.player2Name;
-        io.to(room).emit("player-2-Joined-Room",allDetails2.player2Name);
-    })
+    });
     socket.on("gameStarted",(room)=>{
         io.to(room).emit("game-started");
     })
