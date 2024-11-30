@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Slide-up Popup</title>
+    <style>
+        /* Basic body styling */
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            text-align: center;
+        }
+
+        /* Styling for the popup */
+        .popup {
+            position: fixed;
+            bottom: -100px; /* Start off-screen */
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 20px;
+            background-color: #4CAF50;
+            color: white;
+            font-size: 16px;
+            border-radius: 5px;
+            width: 90%;
+            max-width: 300px;
+            box-sizing: border-box;
+            opacity: 0; /* Initially invisible */
+            transition: transform 0.5s ease, opacity 0.5s ease; /* Smooth transition for slide-up and fade-in */
+            z-index: 1000;
+        }
+
+        /* Button styling */
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Popup container -->
+    <div class="popup" id="popupMessage">This is a slide-up popup message!</div>
+
+    <!-- Button to trigger the popup -->
+    <button onclick="showPopup()">Show Popup</button>
+
+    <script>
+        // Function to show the slide-up popup
+        function showPopup() {
+            const popup = document.getElementById('popupMessage');
+
+            // Make the popup visible and slide it up
+            popup.style.transform = 'translateX(-50%) translateY(-100px)'; // Start below the screen
+            popup.style.opacity = '1';  // Fade-in effect
+            popup.style.bottom = '20px';  // Move it upwards
+
+            // After 2 seconds, fade it out and slide it down
+            setTimeout(() => {
+                popup.style.opacity = '0'; // Fade-out effect
+                popup.style.bottom = '-100px'; // Slide it down
+            }, 2000);
+
+            // After 3 seconds, hide the popup completely
+            setTimeout(() => {
+                popup.style.transform = 'translateX(-50%) translateY(0)'; // Reset transform
+                popup.style.display = 'none'; // Hide the popup completely
+            }, 3000);
+        }
+    </script>
+
+</body>
+</html>

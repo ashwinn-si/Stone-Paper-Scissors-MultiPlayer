@@ -13,6 +13,7 @@
 <body>
     
     <div class="container">
+        <div class="popupMessage" id="popupMessage">This is a slide-up popup message!</div>
         <div class="sub-container">
             <div class="loader-container">
                 <p class="header">Enter <span>room ID</span></p>
@@ -62,10 +63,31 @@
 
     function errorHandlingRounds(noRounds) {
         if (isNaN(noRounds) || noRounds <= 0) {
-            alert("Enter a valid Room ID");
+            showPopup("Enter a valid Room ID");
             return true;  // Returns true to stop the form submission
         }
         return false;
+    }
+    function showPopup(text) {
+        const popup = document.getElementById('popupMessage');
+        popup.innerHTML=text;
+
+            // Make the popup visible and slide it up
+        popup.style.transform = 'translateX(-50%) translateY(-100px)'; // Start below the screen
+        popup.style.opacity = '1';  // Fade-in effect
+        popup.style.bottom = '20px';  // Move it upwards
+
+            // After 2 seconds, fade it out and slide it down
+        setTimeout(() => {
+            popup.style.opacity = '0'; // Fade-out effect
+            popup.style.bottom = '-100px'; // Slide it down
+        }, 2000);
+
+            // After 3 seconds, hide the popup completely
+        setTimeout(() => {
+            popup.style.transform = 'translateX(-50%) translateY(0)'; // Reset transform
+            popup.style.display = 'none'; // Hide the popup completely
+        }, 3000);
     }
     </script>
 </body>

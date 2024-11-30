@@ -12,6 +12,7 @@
 </head>
 <body>
 <div class="container">
+    <div class="popupMessage" id="popupMessage">This is a slide-up popup message!</div>
     <div class="sub-container">
         <div class="inputGroup">
             <input type="text" required autocomplete="off" id="name" required>
@@ -76,10 +77,10 @@
     function generateRoomID() {
         return Math.floor(100000 + Math.random() * 900000);
     }
-
+    
     function errorHandlingName(name) {
         if (name.length === 0) {
-            alert("Please enter a valid name.");
+            showPopup("Please enter a valid name");
             return true;
         }
         return false;
@@ -87,12 +88,32 @@
 
     function errorHandlingRounds(noRounds) {
         if (isNaN(noRounds) || noRounds <= 0) {
-            alert("Enter a valid number of rounds.");
+            showPopup("Enter a valid number of rounds");
             return true;  // Returns true to stop the form submission
         }
         return false;
     }
+    function showPopup(text) {
+        const popup = document.getElementById('popupMessage');
+        popup.innerHTML=text;
 
+            // Make the popup visible and slide it up
+        popup.style.transform = 'translateX(-50%) translateY(-100px)'; // Start below the screen
+        popup.style.opacity = '1';  // Fade-in effect
+        popup.style.bottom = '20px';  // Move it upwards
+
+            // After 2 seconds, fade it out and slide it down
+        setTimeout(() => {
+            popup.style.opacity = '0'; // Fade-out effect
+            popup.style.bottom = '-100px'; // Slide it down
+        }, 2000);
+
+            // After 3 seconds, hide the popup completely
+        setTimeout(() => {
+            popup.style.transform = 'translateX(-50%) translateY(0)'; // Reset transform
+            popup.style.display = 'none'; // Hide the popup completely
+        }, 3000);
+    }
 </script>
 </body>
 </html>
