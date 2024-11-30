@@ -110,7 +110,6 @@
 
         //copy button script
         document.getElementById("copy-btn").addEventListener("click", function() {
-            // Use the Clipboard API
             navigator.clipboard.writeText(RoomID).then(() => {
                 alert("Room ID copied!");
             })

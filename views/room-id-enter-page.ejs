@@ -31,7 +31,9 @@
         }
         document.getElementById("submit").addEventListener("click", () => {
          const roomID = parseInt(document.getElementById("roomID").value);
-
+            if(errorHandlingRounds(roomID)){
+                return;
+            }
             fetch("/joinRoom/room-id-check", {
             method: "POST",
             headers: {
@@ -56,9 +58,15 @@
         .catch((error) => {
             console.error("Error:", error);
         });
-});
+    });
 
-
+    function errorHandlingRounds(noRounds) {
+        if (isNaN(noRounds) || noRounds <= 0) {
+            alert("Enter a valid Room ID");
+            return true;  // Returns true to stop the form submission
+        }
+        return false;
+    }
     </script>
 </body>
 </html>
