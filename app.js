@@ -13,6 +13,8 @@ const server = https.createServer(app);
 
 const io = new Server(server);
 
+
+//socket-io connections
 io.on("connection", (socket) => {
     socket.on("Player1joinRoom", (room) => {
         socket.join(room);
@@ -20,12 +22,14 @@ io.on("connection", (socket) => {
     })
     socket.on("Player2joinRoom", (room) => {
         socket.join(room);
+        allDetails1.player2Name = allDetails2.player2Name;
         io.to(room).emit("player-2-Joined-Room",allDetails2.player2Name);
     })
     socket.on("gameStarted",(room)=>{
         io.to(room).emit("game-started");
     })
 })
+
 
 app.set("view engine", "ejs");
 app.use(express.static(path.join(__dirname, "public")));

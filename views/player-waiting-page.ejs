@@ -8,12 +8,18 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=content_copy" />
     <link rel="icon" href="/web_icon.png">
 </head>
 <body>
     
     <div class="container">
-        <div class="header-container"><p class="header">ROOM ID : <span id="room-id"></span></p></div>
+        <div class="header-container">
+            <p class="header">ROOM ID :
+                <span id="room-id"></span>
+                <span class="material-symbols-outlined" id ="copy-btn">content_copy</span>
+            </p>
+        </div>
         <div class="sub-container">
             <div class="player-container" id="player-container">
                 <p class="header">Avaliable Players</p>
@@ -70,6 +76,7 @@
         }
 
         const socket = io();
+
         if(Player1Flag === "true"){
             socket.emit('Player1joinRoom', RoomID);
             //adding the player 2 name to the list and enabling the start button and hidding the loading
@@ -79,17 +86,35 @@
                 button.style.visibility = "visible";
             })
             button.addEventListener('click',()=> {
-                socket.emit("gameStarted",RoomID);
+                socket.emit("gameStarted", RoomID);
+                socket.disconnect();
+                fetch("/player1/player-move-page", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                }).then(response => {
+                    window.location.href = "/player1/render/player-move-page";
+                })
+
             })
         }else{
             socket.emit('Player2joinRoom', RoomID);
             socket.on("game-started",()=>{
                 setTimeout(()=>{
-
-                }
+                    window.location.href = "/player2/render/player-move-page";
+                },1000)
+                socket.disconnect();
             })
         }
 
+        //copy button script
+        document.getElementById("copy-btn").addEventListener("click", function() {
+            // Use the Clipboard API
+            navigator.clipboard.writeText(RoomID).then(() => {
+                alert("Room ID copied!");
+            })
+        });
 
     </script>
     

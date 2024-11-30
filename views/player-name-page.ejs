@@ -11,66 +11,88 @@
     <link rel="icon" href="/web_icon.png">
 </head>
 <body>
-    <div class="container">
-        <div class="sub-container">
-            <div class="inputGroup">
-                <input type="text" required autocomplete="off" id="name">
-                <label for="name" >Name</label>
-            </div>
-            <div class="inputGroup" id="noRoundsContainer">
-                <input type="number" required autocomplete="off" id="rounds">
-                <label for="name">Run To Points</label>
-            </div>
-            <button id="button"></button>
+<div class="container">
+    <div class="sub-container">
+        <div class="inputGroup">
+            <input type="text" required autocomplete="off" id="name" required>
+            <label for="name" >Name</label>
         </div>
+        <div class="inputGroup" id="noRoundsContainer">
+            <input type="number" required autocomplete="off" id="rounds" >
+            <label for="name">Run To Points</label>
+        </div>
+        <button id="button"></button>
     </div>
-    <script>
-         
-        const buttonData = <%-JSON.stringify(buttonContent) %>; 
-        document.getElementById("button").innerHTML=buttonData.content;
-        if(buttonData.content === 'Create'){
-            document.getElementById("noRoundsContainer").style.visibility = "visible";
-        }else{
-            document.getElementById("noRoundsContainer").innerHTML="";
+</div>
+<script>
+
+    const buttonData = <%-JSON.stringify(buttonContent) %>;
+    document.getElementById("button").innerHTML = buttonData.content;
+
+    if (buttonData.content === 'Create') {
+        document.getElementById("noRoundsContainer").style.visibility = "visible";
+    } else {
+        document.getElementById("noRoundsContainer").innerHTML = "";
+    }
+
+    document.getElementById("button").addEventListener('click', () => {
+        const name = document.getElementById("name").value.trim();
+        if (errorHandlingName(name)) {
+            return;
         }
-        <!--TODO ERROR HANDLING FOR NAME-->
-        document.getElementById("button").addEventListener('click',()=>{
-            const name = document.getElementById("name").value;
-            if(buttonData.content ==='Create'){
-                const noRounds = parseInt(document.getElementById("rounds").value);
-                fetch(buttonData.location, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body:JSON.stringify({
-                        player1Name:name,
-                        roomID : generateRoomID(),
-                        noRounds : noRounds
-                    })
-                }).then(response=>{
-                    window.location.href="/CreateRoom/render/player-waiting-page";
-                })
-            }else{
-                fetch(buttonData.location,{
-                    method:'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body:JSON.stringify({
-                        player2Name:name
-                    })
-                }).then(response=>{
-                    window.location.href="/joinRoom/render/room-id-enter-page";
-                })
+        if (buttonData.content === 'Create') {
+            const noRounds = parseInt(document.getElementById("rounds").value);
+            if (errorHandlingRounds(noRounds)) {
+                return;
             }
-            
-        })
-
-        function generateRoomID() {
-            return Math.floor(100000 + Math.random() * 900000);
+            fetch(buttonData.location, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body:JSON.stringify({
+                    player1Name:name,
+                    roomID : generateRoomID(),
+                    noRounds : noRounds
+                })
+            }).then(response=>{
+                window.location.href="/CreateRoom/render/player-waiting-page";
+            })
+        } else {
+            fetch(buttonData.location, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    player2Name: name
+                })
+            }).then(response => {
+                window.location.href = "/joinRoom/render/room-id-enter-page";
+            })
         }
+    });
 
-    </script>
+    function generateRoomID() {
+        return Math.floor(100000 + Math.random() * 900000);
+    }
+
+    function errorHandlingName(name) {
+        if (name.length === 0) {
+            alert("Please enter a valid name.");
+            return true;
+        }
+        return false;
+    }
+
+    function errorHandlingRounds(noRounds) {
+        if (isNaN(noRounds) || noRounds <= 0) {
+            alert("Please enter a valid number of rounds.");
+            return true;  // Returns true to stop the form submission
+        }
+        return false;
+    }
+
+</script>
 </body>
 </html>

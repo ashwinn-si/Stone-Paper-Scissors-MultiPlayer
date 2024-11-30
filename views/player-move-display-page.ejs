@@ -150,10 +150,10 @@
             })
         }
         function player2Backend(){
-            //delaying the player 2 again by 500ms 
+            //delaying the player 2 again by 2000ms
             setTimeout(()=>{
                 window.location.href="/player2/render/player-move-page"
-            },5000);
+            },2000);
         }
 
         
@@ -164,7 +164,7 @@
         const countdown = setInterval(() => {
             timerElement.textContent = time;
             time--;
-            if(time==5){
+            if(time==2){
                 if(player1Flag==="true"){
                     player1Backend();
                 }else{
