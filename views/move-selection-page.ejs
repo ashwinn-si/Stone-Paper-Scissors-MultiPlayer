@@ -88,7 +88,6 @@
             if(player_move==="empty"){
                 player_move = randomMoveGenerator();
             }
-
             if(player1Flag==="true"){
                 player1MoveSender();
             }else{
@@ -132,12 +131,11 @@
         const countdown = setInterval(() => {
             timerElement.textContent = time;
             time--;
-
-            if (time < 0) {
+            if (time == 0) {
+                moveSender();
                 clearInterval(countdown);
-                timerElement.textContent = "Time's up!";
-                timerElement.style.color = "tomato"; 
-                moveSender(); 
+                timerElement.textContent = "0";
+                timerElement.style.color = "tomato";
             }
         }, 1000);
 

@@ -66,24 +66,4 @@ router.get("/render/player-waiting-page", (req, res) => {
     });
 });
 
-
-router.get("/game-start-check", async (req, res) => {
-  
-        
-
-        const savedGame = await Game.findById(allDetails.databaseID);
-
-        if (!savedGame) {
-            return res.status(404).json({ error: "Game not found" });
-        }
-
-        if (savedGame.gameStart === "no") {
-            return res.status(404).json({ error: "Game has not started" });
-        }
-
-        res.status(200).json({ success: true, message: "Game has started" });
-   
-});
-
-
 module.exports = {router,allDetails};

@@ -40,6 +40,7 @@ router.post("/player-move-sender",async (req,res)=>{
         player2Move:req.body.player2Move
     })
     let currGame = await Game.findById(allDetails.databaseID);
+    allDetails.player1Move = currGame.player1Move;
     allDetails.player2Move = currGame.player2Move;
     allDetails.player2Status = await resultFinder(currGame.player2Move,currGame.player1Move);
     let result_text = resultTextFinder(allDetails.player2Status,allDetails.player2Name,allDetails.player1Name);
@@ -48,6 +49,8 @@ router.post("/player-move-sender",async (req,res)=>{
     }else if(allDetails.player2Status === "loss"){
         allDetails.player1Score++;
     }
+
+    allDetails.currRound++;
 
     if(allDetails.player2Score == allDetails.totalRounds){
         winnerName = allDetails.player2Name;

@@ -8,7 +8,7 @@ const resultFinder = require("../public/scripts/resultFinder");
 
 const resultTextFinder = require("../public/scripts/resultMessageFinder");
 
-const {noneed_router:router1 , allDetails} = require("./createRoomRoutes")
+const {noneed_router:router1 , allDetails:allDetails} = require("./createRoomRoutes")
 
 let winnerName = "";
 let gameEndedFlag = false;
@@ -21,14 +21,13 @@ allDetails.player2Status="empty";
 
 
 router.post("/player-move-page",async(req,res)=>{
-    await Game.findByIdAndUpdate(allDetails.databaseID,{
-        gameStart:"yes"
-    })
+
     const currGame = await Game.findByIdAndUpdate(allDetails.databaseID,{
         player1Score:allDetails.player1Score,
         player2Score :allDetails.player2Score,
         currRound :allDetails.currRound,
     })
+
     res.render("move-selection-page",{
         player_1_name:allDetails.player1Name,
         player_2_name:allDetails.player2Name,
@@ -54,13 +53,15 @@ const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 router.post("/player-move-sender", async (req, res) => {
     // Update player1's move in the database
-    let currGame = await Game.findByIdAndUpdate(allDetails.databaseID, {
-        player1Move: req.body.player1Move,
-    });
     allDetails.player1Move = req.body.player1Move;
+
+    await Game.findByIdAndUpdate(allDetails.databaseID,{
+        player1Move : allDetails.player1Move,
+    })
+
     // Wait for 1 m-second before processing
 
-    await delay(5000);
+    await delay(2000);
 
     // Fetch the updated game details
     currGame = await Game.findById(allDetails.databaseID);
@@ -72,10 +73,9 @@ router.post("/player-move-sender", async (req, res) => {
     allDetails.player2Move = currGame.player2Move;
     allDetails.player1Score = currGame.player1Score;
     allDetails.player2Score = currGame.player2Score;
-    while(allDetails.player2Move === "empty"){
-        currGame = await Game.findById(allDetails.databaseID);
-        allDetails.player2Name = currGame.player2Move;
-    }
+    currGame = await Game.findById(allDetails.databaseID);
+    allDetails.player2Name = currGame.player2Name;
+
 
     // Determine the result for player1
     allDetails.player1Status = await resultFinder(currGame.player1Move, currGame.player2Move);
@@ -100,7 +100,6 @@ router.post("/player-move-sender", async (req, res) => {
         gameEndedFlag=true;
         winnerName = allDetails.player1Name;
     }
-
     // Render the updated page
     res.render("player-move-display-page", {
         your_name: allDetails.player1Name,
