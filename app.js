@@ -18,10 +18,11 @@ const io = new Server(server);
 io.on("connection", (socket) => {
     socket.on("Player1joinRoom", (room) => {
         socket.join(room);
-        console.log("player 1 joined");
     })
     socket.on("Player2joinRoom", (room) => {
-        socket.join(room);
+        socket.join(room).then(()=>{
+            console.log("plyaer 2 successfully joined");
+        });
         allDetails1.player2Name = allDetails2.player2Name;
         io.to(room).emit("player-2-Joined-Room",allDetails2.player2Name);
     })
