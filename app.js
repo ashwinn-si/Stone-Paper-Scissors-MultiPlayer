@@ -25,7 +25,7 @@ io.on("connection", (socket) => {
         io.to(room).emit("player-2-Joined-Room",allDetails2.player2Name);
     })
     socket.on("gameStarted",(room)=>{
-        io.to(room).emit("game-started");
+        io.to(room).emit("game-started","yesssgooooo");
     })
 })
 

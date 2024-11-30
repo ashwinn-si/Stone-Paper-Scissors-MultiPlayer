@@ -100,7 +100,7 @@
             })
         }else{
             socket.emit('Player2joinRoom', RoomID);
-            socket.on("game-started",()=>{
+            socket.on("game-started",(message)=>{
                 setTimeout(()=>{
                     window.location.href = "/player2/render/player-move-page";
                 },1000)
