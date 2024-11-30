@@ -59,28 +59,8 @@ router.get("/render/player-waiting-page",async (req,res)=>{
     })
 })
 
-router.get("/searching-player",async(req,res)=>{
-    const currGame = await Game.findById(allDetails.databaseID).then((savedGame)=>{
-        //404 -> player not found
-        //200 -> player found
-        allDetails.player2Name = savedGame.player2Name;
-        if(allDetails.player2Name == undefined){
-            res.sendStatus(404);
-        }else{
-            res.sendStatus(200);
-        }
-    })
-})
 
-router.get("/render/playerFound/player-waiting-page",(req,res)=>{
-    const playerName = [allDetails.player1Name,allDetails.player2Name];
-    res.render("player-waiting-page",{ 
-        "RoomID" : allDetails.roomID,
-        "playerName" : playerName,
-        "loaderFlag" : false,
-        "startButtonFlag":true
-    });
-})
+
 
 
 
