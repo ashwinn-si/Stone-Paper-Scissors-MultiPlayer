@@ -19,19 +19,27 @@ io.on("connection", (socket) => {
     socket.on("Player1joinRoom", (room) => {
         socket.join(room);
     })
-    socket.on("Player2joinRoom", (room) => {    
-        // Try to join the room
-        socket.join(room, (err) => {
-            if (err) {
-                console.log(`Error joining room: ${room}`, err);
-                return;
-            }
-            // Successfully joined room
-            allDetails1.player2Name = allDetails2.player2Name;
-            io.to(room).emit("player-2-Joined-Room", allDetails2.player2Name);
-            console.log(`Socket successfully joined room: ${room}`);
-        });
+    socket.on("Player2joinRoom", (room) => {
+    // Check if the socket is already in the room
+    if (socket.rooms.has(room)) {
+        console.log(`Socket is already in room: ${room}`);
+        return; // Do nothing if already connected
+    }
+    
+    // Try to join the room
+    socket.join(room, (err) => {
+        if (err) {
+            console.log(`Error joining room: ${room}`, err);
+            return;
+        }
+        
+        // Successfully joined room
+        allDetails1.player2Name = allDetails2.player2Name;
+        io.to(room).emit("player-2-Joined-Room", allDetails2.player2Name);
+        console.log(`Socket successfully joined room: ${room}`);
+        io.to(room).emit("player-2-Joined-Room",allDetails2.player2Name);
     });
+});
     socket.on("gameStarted",(room)=>{
         io.to(room).emit("game-started");
     })
