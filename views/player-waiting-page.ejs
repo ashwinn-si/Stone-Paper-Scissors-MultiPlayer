@@ -87,7 +87,6 @@
             })
             button.addEventListener('click',()=> {
                 socket.emit("gameStarted", RoomID);
-                socket.disconnect();
                 fetch("/player1/player-move-page", {
                     method: 'POST',
                     headers: {
@@ -96,7 +95,6 @@
                 }).then(response => {
                     window.location.href = "/player1/render/player-move-page";
                 })
-
             })
         }else{
             socket.emit('Player2joinRoom', RoomID);
@@ -104,7 +102,6 @@
                 setTimeout(()=>{
                     window.location.href = "/player2/render/player-move-page";
                 },1000)
-                socket.disconnect();
             })
         }
 
