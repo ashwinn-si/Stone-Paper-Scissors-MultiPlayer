@@ -1,6 +1,8 @@
+require('dotenv').config();
+
 const mongoose = require("mongoose");
 
-const mongoURL = "mongodb+srv://root:n0SFsK3VoT2p2Box@detailscluster.hu83z.mongodb.net/Stone-Paper-Scissor?retryWrites=true&w=majority&appName=DetailsCluster";
+const mongoURL = process.env.MONGO_URL;
 
 
 mongoose.connect(mongoURL)
