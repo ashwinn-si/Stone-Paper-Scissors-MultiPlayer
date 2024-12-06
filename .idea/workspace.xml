@@ -6,16 +6,16 @@
   <component name="ChangeListManager">
     <list default="true" id="2190642a-8821-4d73-bfd8-7b21ce08c6ef" name="Changes" comment="first">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/game.js" beforeDir="false" afterPath="$PROJECT_DIR$/models/game.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/styles/create-join-room-page.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/styles/create-join-room-page.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/styles/player-waiting-page.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/styles/player-waiting-page.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/createRoomRoutes.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/createRoomRoutes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/styles/join-room-page.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/styles/join-room-page.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/styles/move-selection-page.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/styles/move-selection-page.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/styles/player-move-display-page.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/styles/player-move-display-page.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/styles/player-name-page.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/styles/player-name-page.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/joinRoomRoutes.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/joinRoomRoutes.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/player1Routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/player1Routes.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/player2Routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/player2Routes.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/create-join-room-page.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/views/create-join-room-page.ejs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/move-selection-page.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/views/move-selection-page.ejs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/views/player-move-display-page.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/views/player-move-display-page.ejs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/player-waiting-page.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/views/player-waiting-page.ejs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/sample.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/room-id-enter-page.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/views/room-id-enter-page.ejs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -95,7 +95,7 @@
       <workItem from="1732990744054" duration="2505000" />
       <workItem from="1733024005361" duration="855000" />
       <workItem from="1733327676293" duration="465000" />
-      <workItem from="1733484125606" duration="1419000" />
+      <workItem from="1733484125606" duration="4677000" />
     </task>
     <task id="LOCAL-00001" summary="first">
       <option name="closed" value="true" />
@@ -105,11 +105,30 @@
       <option name="project" value="LOCAL" />
       <updated>1732478313773</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="first">
+      <option name="closed" value="true" />
+      <created>1733485687306</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1733485687306</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="first" />

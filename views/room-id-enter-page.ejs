@@ -25,43 +25,53 @@
     </div>
     <script>
         let errorFlag="<%=ErrorFlag%>"
-        
+        let errorDiv = document.getElementById("error-message")
         
         if(errorFlag==='true'){
             document.getElementById("error-message").style.visibility="visible";
         }
         document.getElementById("submit").addEventListener("click", () => {
-         const roomID = parseInt(document.getElementById("roomID").value);
-            if(errorHandlingRounds(roomID)){
+            const roomID = parseInt(document.getElementById("roomID").value);
+
+            // Check for valid roomID before making the request
+            if (errorHandlingRounds(roomID)) {
                 return;
             }
-            fetch("/joinRoom/room-id-check", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ roomID }),
-        })
-        .then((response) => {
-            if (response.status === 200) {
-                return response.json(); // Parse the JSON response
-            } else if (response.status === 404) {
-                document.getElementById("error-message").style.visibility = "visible";
-                throw new Error("Room not found");
-            } else {
-                throw new Error("Unexpected error occurred");
-            }
-        })
-        .then((data) => {
-            // Redirect based on server response
-            window.location.href = data.redirectTo;
-        })
-        .catch((error) => {
-            console.error("Error:", error);
-        });
-    });
 
-    function errorHandlingRounds(noRounds) {
+            fetch("/joinRoom/room-id-check", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ roomID }),
+            })
+                .then((response) => {
+                    if (response.status === 200) {
+                        return response.json(); // Parse the JSON response
+                    } else if (response.status === 404) {
+                        // Extract the error message from the response body
+                        return response.json().then((errorData) => {
+                            throw new Error(errorData.error); // Throw an error with the error message
+                        });
+                    } else {
+                        throw new Error("Unexpected error occurred");
+                    }
+                })
+                .then((data) => {
+                    // Redirect based on server response
+                    window.location.href = data.redirectTo;
+                })
+                .catch((error) => {
+                    // Handle the error, display the error message
+                    const errorMessageElement = document.getElementById("error-message");
+                    errorMessageElement.textContent = error.message;
+                    errorMessageElement.style.visibility = "visible";
+                    console.error("Error:", error);
+                });
+        });
+
+
+        function errorHandlingRounds(noRounds) {
         if (isNaN(noRounds) || noRounds <= 0) {
             showPopup("Enter a valid Room ID");
             return true;  // Returns true to stop the form submission

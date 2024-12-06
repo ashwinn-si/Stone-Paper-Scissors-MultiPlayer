@@ -41,14 +41,19 @@
     border:  solid var(--border-color) 1px;
     padding: 10px;
 }
+
 .header-container div{
     width: 33.33%;
     text-align: center;
+}
+.header-container div p{
+    font-size: 1.2rem;
 }
 
 .header{
     font-size: 1.5rem;
 }
+
 .move-selection-container{
     width: 100%;
     display: flex;
@@ -113,6 +118,9 @@
     .header{
         font-size: 1.2rem;
     }
+    .header-container div p{
+        font-size: 1rem;
+    }
 }
 
 @media (min-width:768px) {
@@ -130,4 +138,5 @@
         position: absolute;
         top:80%;
     }
+
 }

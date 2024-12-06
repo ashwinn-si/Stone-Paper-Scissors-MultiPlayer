@@ -40,17 +40,24 @@ router.post("/room-id-check", async (req, res) => {
     allDetails.roomID = parseInt(req.body.roomID, 10);
     let currGame = await Game.find({ roomID:allDetails.roomID });
 
-    if (currGame.length === 1) {
-        allDetails.databaseID = currGame[0]._id;
-        allDetails.player1Name = currGame[0].player1Name;
-        allDetails.totalRounds=currGame[0].totalRound;
-        // Update player2Name in the database
-        await Game.findByIdAndUpdate(allDetails.databaseID, { player2Name : allDetails.player2Name });
+    //if the room is already full with two players
+    if(currGame.length === 1){
+        const checker = currGame[0].player2Name;
+        if(checker === undefined){
+            allDetails.databaseID = currGame[0]._id;
+            allDetails.player1Name = currGame[0].player1Name;
+            allDetails.totalRounds=currGame[0].totalRound;
+            // Update player2Name in the database
+            await Game.findByIdAndUpdate(allDetails.databaseID, { player2Name : allDetails.player2Name });
 
-        // Send JSON response indicating success
-        res.status(200).json({ redirectTo: "/joinRoom/render/player-waiting-page" });
-    } else {
-        // Send JSON response indicating failure
+            // Send JSON response indicating success
+            res.status(200).json({ redirectTo: "/joinRoom/render/player-waiting-page" });
+
+        }else{
+            res.status(404).json({ error: "Room is Full" });
+        }
+    }
+    else {
         res.status(404).json({ error: "Room not found" });
     }
 });

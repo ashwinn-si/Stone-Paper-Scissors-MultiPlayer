@@ -26,7 +26,7 @@ router.post("/player-move-page",async(req,res)=>{
         player_2_name:allDetails.player2Name,
         player_1_score:allDetails.player1Score,
         player_2_score:allDetails.player2Score,
-        curr_round:allDetails.currRound,
+        curr_round:allDetails.totalRounds,
         player1Flag:true
     })
 })
@@ -37,7 +37,7 @@ router.get("/render/player-move-page",(req,res)=>{
         player_2_name:allDetails.player2Name,
         player_1_score:allDetails.player1Score,
         player_2_score:allDetails.player2Score,
-        curr_round:allDetails.currRound,
+        curr_round:allDetails.totalRounds,
         player1Flag:true  
     })
 })
