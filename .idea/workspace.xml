@@ -5,13 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2190642a-8821-4d73-bfd8-7b21ce08c6ef" name="Changes" comment="first">
-      <change afterPath="$PROJECT_DIR$/.env" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/game.js" beforeDir="false" afterPath="$PROJECT_DIR$/models/game.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/move-selection-page.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/views/move-selection-page.ejs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -97,6 +91,8 @@
       <workItem from="1733024005361" duration="855000" />
       <workItem from="1733327676293" duration="465000" />
       <workItem from="1733484125606" duration="5424000" />
+      <workItem from="1733489563482" duration="336000" />
+      <workItem from="1733492482786" duration="610000" />
     </task>
     <task id="LOCAL-00001" summary="first">
       <option name="closed" value="true" />
