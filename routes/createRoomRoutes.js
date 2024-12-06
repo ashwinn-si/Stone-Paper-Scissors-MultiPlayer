@@ -30,9 +30,6 @@ router.post("/player-waiting-page", async(req,res)=>{
         roomID : req.body.roomID,
         player1Move : "empty",
         player2Move : "empty",
-        player1Score : 0,
-        player2Score: 0,
-        currRound : 0,
         totalRound : parseInt(req.body.noRounds, 10),
         gameStart:"no",
     })

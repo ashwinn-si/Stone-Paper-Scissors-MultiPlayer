@@ -20,11 +20,7 @@ let winnerName = "";
 let gameEndedFlag = false;
 
 router.get("/render/player-move-page", async (req,res)=>{
-    const currGame = await Game.findByIdAndUpdate(allDetails.databaseID,{
-        player1Score:allDetails.player1Score,
-        player2Score :allDetails.player2Score,
-        currRound :allDetails.currRound,
-    })
+
     res.render("move-selection-page",{
         player_1_name:allDetails.player1Name,
         player_2_name:allDetails.player2Name,

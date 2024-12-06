@@ -21,13 +21,6 @@ allDetails.player2Status="empty";
 
 
 router.post("/player-move-page",async(req,res)=>{
-
-    const currGame = await Game.findByIdAndUpdate(allDetails.databaseID,{
-        player1Score:allDetails.player1Score,
-        player2Score :allDetails.player2Score,
-        currRound :allDetails.currRound,
-    })
-
     res.render("move-selection-page",{
         player_1_name:allDetails.player1Name,
         player_2_name:allDetails.player2Name,
@@ -59,9 +52,7 @@ router.post("/player-move-sender", async (req, res) => {
         player1Move : allDetails.player1Move,
     })
 
-    // Wait for 1 m-second before processing
-
-    await delay(2000);
+    await delay(3000);
 
     // Fetch the updated game details
     currGame = await Game.findById(allDetails.databaseID);
@@ -71,11 +62,8 @@ router.post("/player-move-sender", async (req, res) => {
     }
 
     allDetails.player2Move = currGame.player2Move;
-    allDetails.player1Score = currGame.player1Score;
-    allDetails.player2Score = currGame.player2Score;
     currGame = await Game.findById(allDetails.databaseID);
     allDetails.player2Name = currGame.player2Name;
-
 
     // Determine the result for player1
     allDetails.player1Status = await resultFinder(currGame.player1Move, currGame.player2Move);

@@ -14,6 +14,7 @@
 <body>
     
     <div class="container">
+        <div class="popupMessage" id="popupMessage">This is a slide-up popup message!</div>
         <div class="header-container">
             <p class="header">ROOM ID :
                 <span id="room-id"></span>
@@ -101,14 +102,22 @@
             socket.on("game-started",(message)=>{
                 setTimeout(()=>{
                     window.location.href = "/player2/render/player-move-page";
-                },1000)
+                },2000)
             })
         }
 
         //copy button script
         document.getElementById("copy-btn").addEventListener("click", function() {
             navigator.clipboard.writeText(RoomID).then(() => {
-                alert("Room ID copied!");
+                const popup = document.getElementById('popupMessage');
+                popup.innerHTML="Room ID copied!";
+                popup.style.transform = 'translateX(-50%) translateY(-100px)'; // Start below the screen
+                popup.style.opacity = '1';  // Fade-in effect
+                popup.style.bottom = '20px';  // Move it upwards
+                setTimeout(() => {
+                    popup.style.opacity = '0'; // Fade-out effect
+                    popup.style.bottom = '-100px'; // Slide it down
+                }, 2000);
             })
         });
 

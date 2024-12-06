@@ -17,10 +17,6 @@ const GameSchema = new mongoose.Schema({
     player1Name: String,
     player2Name: String,
     totalRound : Number,
-    gameStart: String, //tells if the game is start or not
-    currRound : Number, 
-    player1Score: Number,
-    player2Score:Number, 
     player1Move: String,
     player2Move: String,
 });

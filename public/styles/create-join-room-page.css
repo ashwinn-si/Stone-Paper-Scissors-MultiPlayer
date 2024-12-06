@@ -30,8 +30,13 @@
     text-align: center;
     font-weight: 600;
 }
+.header span{
+    font-weight: 700;
+}
 .sub-container {
     min-width: 350px;
+    max-width: 600px;
+    height: initial;
     display: flex;
     justify-content: center;
     align-items: center;
