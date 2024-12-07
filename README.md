@@ -1,6 +1,6 @@
 # Stone Paper Scissors - Multiplayer Game
 
-This is a multiplayer version of the classic Stone Paper Scissors game, built with Node.js, Express, MongoDB, and Socket.io for real-time functionality. Players can create a game room, join a room, and play against each other in real-time.
+This is a multiplayer version of the classic Stone Paper Scissors game. Players can create a game room, join a room, and play against each other in real time🌏.
 
 ### Try the game live here:
 [Play Stone Paper Scissors - Multiplayer](https://stone-paper-scissors-multiplayer.onrender.com/)
@@ -53,11 +53,11 @@ MONGO_URL=mongodb+srv://your_mongo_url_here
 ### 4. Reduce the delay [For running in Local Machine] (Optional)
 
 ```bash
-delay(1000)
+Set Delay to 1s 
 ```
 
 ### 5. Start the application
 
 ```bash
-npm app
+node app
 ```
